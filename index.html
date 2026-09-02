@@ -48,12 +48,17 @@ body {
 <div class="ampm" id="ampm"></div>
 
 <script>
+// NUEVO: Esta función pone la primera letra en Mayúscula
+function capitalizar(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+    
 function actualizarReloj() {
     const ahora = new Date();
     
     // Fecha en español
     const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaTexto = ahora.toLocaleDateString('es-ES', opciones);
+    const fechaTexto = capitalizar(ahora.toLocaleDateString('es-ES', opciones)); // NUEVO: Ahora con mayúsculas
     document.getElementById('fecha').innerHTML = fechaTexto;
     
     // Hora 12h
