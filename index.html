@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reloj</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #007fff; /* 🟦 Fondo azul */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .fecha {
+    color: #ffe000; /* 🟨 Amarillo */
+    font-size: 8vw !important; 
+    margin-bottom: 2vh;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .hora {
+    color: #ff4200; /* 🟧 Naranja */
+    font-size: 20vw !important; /* Bien grande */
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .puntos {
+    animation: parpadeo 1s infinite; /* ✨ Parpadeo */
+  }
+
+  @keyframes parpadeo {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .ampm {
+    color: #00ff16; /* 🟩 Verde */
+    font-size: 10vw !important; 
+    margin-top: 2vh;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <div class="fecha" id="fecha"></div>
+  <div class="hora" id="hora"></div>
+  <div class="ampm" id="ampm"></div>
+
+<script>
+  function actualizarReloj() {
+    const ahora = new Date();
+    
+    // Fecha en español
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaTexto = ahora.toLocaleDateString('es-ES', opciones);
+    document.getElementById('fecha').innerHTML = fechaTexto;
+    
+    // Hora 12h
+    let horas = ahora.getHours();
+    const ampm = horas >= 12 ? 'PM' : 'AM';
+    horas = horas % 12;
+    horas = horas ? horas : 12;
+    const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    
+    document.getElementById('hora').innerHTML = `${horas}<span class="puntos">:</span>${minutos}`;
+    document.getElementById('ampm').innerHTML = ampm;
+  }
+  
+  actualizarReloj();
+  setInterval(actualizarReloj, 1000); // Actualiza cada segundo
+</script>
+</body>
+</html>
