@@ -50,7 +50,9 @@ body {
 <script>
 // NUEVO: Esta función pone la primera letra en Mayúscula
 function capitalizar(texto) {
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
+    return texto.split(' ').map(palabra => 
+        palabra.charAt(0).toUpperCase() + palabra.slice(1)
+    ).join(' ');
 }
     
 function actualizarReloj() {
