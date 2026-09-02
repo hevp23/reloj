@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reloj</title>
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
     background: #007fff; /* 🟦 Fondo azul */
     color: white;
     font-family: 'Arial', sans-serif;
@@ -19,55 +18,37 @@
     width: 100vw;
     text-align: center;
     overflow: hidden;
-  }
-
-  .fecha {
+}
+.fecha {
     color: #ffe000; /* 🟨 Amarillo */
-    font-size: 24px; /* Antes era más grande, ahora 24px */
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
-    white-space: nowrap; /* NUEVO: esto hace que quede en 1 línea */
-  }
-
-  .hora {
-    color: #ff4200; /* 🟧 Naranja */
-    font-size: 20vw !important; /* Bien grande */
+    white-space: nowrap; /* Para que quede en 1 línea */
+}
+.reloj-completo { /* NUEVO: Juntamos todo aquí */
+    color: #ff4200; /* 🟧 Naranja de tu paleta */
+    font-size: 20vw; /* Bien grande */
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.05em;
-  }
-
-   .segundos {
-    color: #ffe000; /* NUEVO: Segundos amarillos */
-    font-size: 20vw !important;
-    font-weight: bold;
-   }
-   
-  .puntos {
-    animation: parpadeo 1s infinite; /* ✨ Parpadeo */
-  }
-
-  @keyframes parpadeo {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-
-  .ampm {
+}
+.ampm {
     color: #00ff16; /* 🟩 Verde */
-    font-size: 10vw !important; 
+    font-size: 10vw;
     margin-top: 2vh;
     font-weight: 700;
-  }
+}
 </style>
 </head>
 <body>
-  <div class="fecha" id="fecha"></div>
-  <span id="hora"></span>:
-<span id="segundos"></span> <!-- NUEVO: Aquí van los segundos -->
-  <div class="ampm" id="ampm"></div>
+
+<div class="fecha" id="fecha"></div>
+<div class="reloj-completo" id="reloj-completo"></div> <!-- NUEVO: Todo en 1 línea -->
+<div class="ampm" id="ampm"></div>
 
 <script>
-  function actualizarReloj() {
+function actualizarReloj() {
     const ahora = new Date();
     
     // Fecha en español
@@ -80,16 +61,18 @@
     const ampm = horas >= 12 ? 'PM' : 'AM';
     horas = horas % 12;
     horas = horas ? horas : 12;
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-     const segundos = String(ahora.getSeconds()).padStart(2, '0'); // NUEVO
     
-    document.getElementById('hora').innerHTML = `${horas}<span class="puntos">:</span>${minutos}`;
-    document.getElementById('segundos').textContent = segundos; // NUEVO
+    const minutos = String(ahora.getMinutes()).padStart(2, '0');
+    const segundos = String(ahora.getSeconds()).padStart(2, '0');
+    
+    // NUEVO: Todo junto en 1 línea
+    document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
     document.getElementById('ampm').innerHTML = ampm;
-  }
-  
-  actualizarReloj();
-  setInterval(actualizarReloj, 1000); // Actualiza cada segundo
+}
+
+actualizarReloj();
+setInterval(actualizarReloj, 1000); // Actualiza cada segundo
 </script>
+
 </body>
 </html>
