@@ -23,10 +23,10 @@
 
   .fecha {
     color: #ffe000; /* 🟨 Amarillo */
-    font-size: 8vw !important; 
-    margin-bottom: 2vh;
-    font-weight: 600;
-    text-transform: capitalize;
+    font-size: 24px; /* Antes era más grande, ahora 24px */
+    font-weight: bold;
+    margin-bottom: 20px;
+    white-space: nowrap; /* NUEVO: esto hace que quede en 1 línea */
   }
 
   .hora {
@@ -37,6 +37,12 @@
     letter-spacing: -0.05em;
   }
 
+   .segundos {
+    color: #ffe000; /* NUEVO: Segundos amarillos */
+    font-size: 20vw !important;
+    font-weight: bold;
+   }
+   
   .puntos {
     animation: parpadeo 1s infinite; /* ✨ Parpadeo */
   }
@@ -56,7 +62,8 @@
 </head>
 <body>
   <div class="fecha" id="fecha"></div>
-  <div class="hora" id="hora"></div>
+  <span id="hora"></span>:
+<span id="segundos"></span> <!-- NUEVO: Aquí van los segundos -->
   <div class="ampm" id="ampm"></div>
 
 <script>
@@ -74,8 +81,10 @@
     horas = horas % 12;
     horas = horas ? horas : 12;
     const minutos = String(ahora.getMinutes()).padStart(2, '0');
+     const segundos = String(ahora.getSeconds()).padStart(2, '0'); // NUEVO
     
     document.getElementById('hora').innerHTML = `${horas}<span class="puntos">:</span>${minutos}`;
+    document.getElementById('segundos').textContent = segundos; // NUEVO
     document.getElementById('ampm').innerHTML = ampm;
   }
   
