@@ -39,6 +39,20 @@ body {
     margin-top: 2vh;
     font-weight: 700;
 }
+
+    .saludo {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    text-shadow: 0 0 10px #00BFFF;
+}
+.frase {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #FFD700;
+    font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -46,8 +60,11 @@ body {
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div> <!-- NUEVO: Todo en 1 línea -->
 <div class="ampm" id="ampm"></div>
-
+<div class="saludo" id="saludo"></div>
+<div class="frase" id="frase"></div>
+    
 <script>
+    
 // NUEVO: Esta función pone la primera letra en Mayúscula
 function capitalizar(texto) {
     const palabras = texto.split(' ');
@@ -81,6 +98,38 @@ function actualizarReloj() {
     // NUEVO: Todo junto en 1 línea
     document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
     document.getElementById('ampm').innerHTML = ampm;
+
+    ponerSaludo();
+    ponerFrase();
+
+    const frases = [
+    "Hoy es un buen día para empezar algo nuevo",
+    "Sonríe, la vida es hermosa",
+    "Un paso a la vez y llegarás lejos",
+    "Tu actitud determina tu día",
+    "Cree en ti, puedes con todo",
+    "Hoy va a pasarte algo increíble",
+    "La paciencia trae grandes recompensas"
+];
+
+function ponerSaludo() {
+    const hora = new Date().getHours();
+    const saludoDiv = document.getElementById('saludo');
+    
+    if (hora < 12) {
+        saludoDiv.textContent = "¡Buenos días!";
+    } else if (hora < 18) {
+        saludoDiv.textContent = "¡Buenas tardes!";
+    } else {
+        saludoDiv.textContent = "¡Buenas noches!";
+    }
+}
+
+function ponerFrase() {
+    const diaDelAno = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    const fraseDelDia = frases[diaDelAno % frases.length]; // Cambia cada día
+    document.getElementById('frase').textContent = fraseDelDia;
+}
 }
 
 actualizarReloj();
