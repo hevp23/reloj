@@ -68,7 +68,7 @@ body {
 .centro {
     width: 10px; 
     height: 10px; 
-    background: #FFD700; /* Solo circulo */
+    background: none !important; /* Solo circulo */
     border: none; 
     box-shadow: none; /* Sin brillo/rayos */
     border-radius: 50%; 
@@ -84,10 +84,14 @@ body {
 .saludo { font-size: 2em; font-weight: bold; margin-bottom: 10px; color: #FFFFFF; text-shadow: 0 0 10px #00BFFF; }
 .frase { font-size: 1.2em; margin-bottom: 20px; color: #FFD700; font-style: italic; }
 footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 0.9em; color: #FFFFFF; opacity: 0.8; }
+
+.reloj-agujas { box-shadow: none !important; }
+.centro { display: none !important; }
+    
 </style>
+    
 </head>
 <body>
-<div class="reloj-agujas" id="reloj-agujas"></div>
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div>
 <div class="ampm" id="ampm"></div>
