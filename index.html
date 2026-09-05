@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reloj Héctor v2.2</title>
-
+<title>Reloj Héctor v2.5</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -28,7 +27,7 @@ body {
     background: #0047ab;
     position: relative;
     margin-bottom: 20px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    /* LE QUITE EL SOL: box-shadow: none; */
 }
 .numero {
     position: absolute;
@@ -46,16 +45,13 @@ body {
     left: 50%;
     bottom: 50%;
     width: 1px;
-    z-index: 3; /* IMPORTANTE: Para que estén encima del fondo */
+    height: 6px; /* Altura base */
+    z-index: 3; /* Para que estén encima del fondo */
 }
 .marca.hora { /* Las 4 rayas grandes */
     width: 3px;
-    height: 12px; /* Un poquito más largas */
+    height: 12px; /* Más largas */
     background: #FFD700; /* Doradas */
-}
-.marca.minuto { /* Las 56 rayitas pequeñas */
-    height: 6px;
-    opacity: 0.8;
 }
 .aguja {
     position: absolute;
@@ -73,8 +69,8 @@ body {
     width: 10px; 
     height: 10px; 
     background: #FFD700; /* Solo circulo */
-    border: none !important; /* Sin borde */
-    box-shadow: none !important; /* Sin brillo/rayos */
+    border: none; 
+    box-shadow: none; /* Sin brillo/rayos */
     border-radius: 50%; 
     position: absolute; 
     top: 50%; 
@@ -89,116 +85,91 @@ body {
 .frase { font-size: 1.2em; margin-bottom: 20px; color: #FFD700; font-style: italic; }
 footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 0.9em; color: #FFFFFF; opacity: 0.8; }
 </style>
-
 </head>
 <body>
-
-<div class="reloj-agujas" id="reloj-agujas">
-    <div class="aguja hora" id="aguja-hora"></div>
-    <div class="aguja minuto" id="aguja-minuto"></div>
-    <div class="aguja segundo" id="aguja-segundo"></div>
-    <div class="centro"></div>
-</div>
-
+<div class="reloj-agujas" id="reloj-agujas"></div>
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div>
 <div class="ampm" id="ampm"></div>
 <div class="saludo" id="saludo"></div>
 <div class="frase" id="frase"></div>
-
 <footer>© 2026 @hevp23 | Héctor Eduardo Valladares Pérez</footer>
 
 <script>
 const frases = [
-    "Hoy es un buen día para empezar algo nuevo",
-    "Sonríe, la vida es hermosa",
-    "Un paso a la vez y llegarás lejos",
-    "Tu actitud determina tu día",
-    "Cree en ti, puedes con todo",
-    "Hoy va a pasarte algo increíble",
-    "La paciencia trae grandes recompensas"
-];
+"Hoy es un buen día para empezar algo nuevo", "Sonríe, la vida es hermosa", 
+"Un paso a la vez y llegarás lejos", "Tu actitud determina tu día", 
+"Cree en ti, puedes con todo", "Hoy va a pasarte algo increíble", 
+"La paciencia trae grandes recompensas" ];
 
-function capitalizar(texto) {
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
-}
+function capitalizar(texto) { return texto.charAt(0).toUpperCase() + texto.slice(1); }
 
 function actualizarReloj() {
-    const ahora = new Date();
-    
-    // 1. SALUDO
-    const hora = ahora.getHours();
-    const saludoDiv = document.getElementById('saludo');
-    if (hora < 12) { saludoDiv.textContent = "¡Buenos días!"; } 
-    else if (hora < 18) { saludoDiv.textContent = "¡Buenas tardes!"; } 
-    else { saludoDiv.textContent = "¡Buenas noches!"; }
+const ahora = new Date();
+// 1. SALUDO
+const hora = ahora.getHours(); const saludoDiv = document.getElementById('saludo');
+if (hora < 12) { saludoDiv.textContent = "¡Buenos días!"; } 
+else if (hora < 18) { saludoDiv.textContent = "¡Buenas tardes!"; } 
+else { saludoDiv.textContent = "¡Buenas noches!"; }
 
-    // 2. FRASE DEL DIA
-    const diaDelAno = Math.floor((ahora - new Date(ahora.getFullYear(), 0, 1)) / 86400000);
-    const fraseDelDia = frases[diaDelAno % frases.length];
-    document.getElementById('frase').textContent = fraseDelDia;
+// 2. FRASE DEL DIA
+const diaDelAno = Math.floor((ahora - new Date(ahora.getFullYear(), 0, 1)) / 86400000);
+document.getElementById('frase').textContent = frases[diaDelAno % frases.length];
 
-    // 3. FECHA
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaTexto = capitalizar(ahora.toLocaleDateString('es-ES', opciones));
-    document.getElementById('fecha').innerHTML = fechaTexto;
+// 3. FECHA
+const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+document.getElementById('fecha').innerHTML = capitalizar(ahora.toLocaleDateString('es-ES', opciones));
 
-    // 4. RELOJ DIGITAL
-    let horas = ahora.getHours();
-    const ampm = horas >= 12 ? 'PM' : 'AM';
-    horas = horas % 12;
-    horas = horas ? horas : 12;
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-    const segundos = String(ahora.getSeconds()).padStart(2, '0');
-    document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
-    document.getElementById('ampm').innerHTML = ampm;
+// 4. RELOJ DIGITAL
+let horas = ahora.getHours(); const ampm = horas >= 12 ? 'PM' : 'AM';
+horas = horas % 12; horas = horas ? horas : 12;
+const minutos = String(ahora.getMinutes()).padStart(2, '0');
+const segundos = String(ahora.getSeconds()).padStart(2, '0');
+document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
+document.getElementById('ampm').innerHTML = ampm;
 
-    // 5. RELOJ DE AGUJAS
-    const deg = 6;
-    const hr = ahora.getHours() % 12;
-    const hrDeg = (hr * 30) + (ahora.getMinutes() / 2);
-    const minDeg = ahora.getMinutes() * deg;
-    const secDeg = ahora.getSeconds() * deg;
-    document.getElementById('aguja-hora').style.transform = `rotate(${hrDeg}deg)`;
-    document.getElementById('aguja-minuto').style.transform = `rotate(${minDeg}deg)`;
-    document.getElementById('aguja-segundo').style.transform = `rotate(${secDeg}deg)`;
-
-    // 6. CREAR NUMEROS Y MARCAS SOLO LA PRIMERA VEZ
-    const relojCara = document.getElementById('reloj-agujas');
-    if (!relojCara.querySelector('.numero')) {
-        // Crear las 60 marcas
-        for (let i = 0; i < 60; i++) {
-            const marca = document.createElement('div');
-            marca.className = 'marca ' + (i % 5 === 0 ? 'hora' : 'minuto');
-            marca.style.transform = `rotate(${i * 6}deg) translateX(-50%)`;
-            relojCara.appendChild(marca);
-        }
-
-        // 7. Crear los 4 numeros
-        const numeros = [12, 3, 6, 9];
-        numeros.forEach(num => {
-            const angulo = (num % 12) * 30;
-            const numeroDiv = document.createElement('div');
-            numeroDiv.className = 'numero';
-            numeroDiv.textContent = num;
-            const radio = 45; // <-- ADENTRO DEL CIRCULO AZUL
-            const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
-            const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
-            numeroDiv.style.left = `${x}%`;
-            numeroDiv.style.top = `${y}%`;
-            relojCara.appendChild(numeroDiv);
-        });
-    }
+// 5. RELOJ DE AGUJAS
+const deg = 6; const hr = ahora.getHours() % 12;
+const hrDeg = (hr * 30) + (ahora.getMinutes() / 2);
+const minDeg = ahora.getMinutes() * deg; const secDeg = ahora.getSeconds() * deg;
+document.getElementById('aguja-hora').style.transform = `rotate(${hrDeg}deg)`;
+document.getElementById('aguja-minuto').style.transform = `rotate(${minDeg}deg)`;
+document.getElementById('aguja-segundo').style.transform = `rotate(${secDeg}deg)`;
 }
-    // Forzar que las marcas se creen
+
+// 6. CREAR NUMEROS Y MARCAS SOLO 1 VEZ AL INICIO
 const relojCara = document.getElementById('reloj-agujas');
-relojCara.innerHTML = `<div class="aguja hora" id="aguja-hora"></div>
+// Limpiar y crear desde cero
+relojCara.innerHTML = `
+    <div class="marca"></div>`.repeat(0) + 
+    `<div class="aguja hora" id="aguja-hora"></div>
     <div class="aguja minuto" id="aguja-minuto"></div>
     <div class="aguja segundo" id="aguja-segundo"></div>
     <div class="centro"></div>`;
-setInterval(actualizarReloj, 1000);
-actualizarReloj(); // Para que cargue de una vez
-</script>
 
+// Crear las 60 marcas
+for (let i = 0; i < 60; i++) {
+    const marca = document.createElement('div');
+    marca.className = 'marca ' + (i % 5 === 0 ? 'hora' : 'minuto');
+    marca.style.transform = `rotate(${i * 6}deg) translateX(-50%)`;
+    relojCara.appendChild(marca);
+}
+
+// 7. Crear los 4 numeros
+const numeros = [12, 3, 6, 9];
+numeros.forEach(num => {
+    const angulo = (num % 12) * 30;
+    const numeroDiv = document.createElement('div');
+    numeroDiv.className = 'numero';
+    numeroDiv.textContent = num;
+    const radio = 45; // <-- ADENTRO DEL CIRCULO AZUL
+    const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
+    const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
+    numeroDiv.style.left = `${x}%`; numeroDiv.style.top = `${y}%`;
+    relojCara.appendChild(numeroDiv);
+});
+
+setInterval(actualizarReloj, 1000); actualizarReloj(); // Para que cargue de una vez
+</script>
 </body>
 </html>
