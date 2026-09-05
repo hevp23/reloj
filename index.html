@@ -20,40 +20,42 @@ body {
     overflow: hidden;
 } /* <-- 1. ARREGLO: Le cerré la llave al body */
 
-.reloj-agujas { /* <-- 2. ARREGLO: Le puse la llave que faltaba */
-    width: 150px;
-    height: 150px;
-    border: 4px solid #FFD700; /* Borde dorado */
+.reloj-agujas {
+    width: 220px; /* <-- LO HICE MAS GRANDE. Antes 150px */
+    height: 220px;
+    border: 5px solid #FFD700; /* Borde un poco mas grueso */
     border-radius: 50%;
     background: #0047ab; 
     position: relative;
     margin-bottom: 20px;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* Mas brillo */
 }
 
-    .numero {
+.numero {
     position: absolute;
     color: #FFD700; /* Dorado */
-    font-size: 16px;
+    font-size: 20px; /* Mas grande */
     font-weight: bold;
-    transform: translate(-50%, -50%); /* Para centrarlo bien */
-    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
+
 .marca {
     position: absolute;
     background: #FFFFFF; /* Rayitas blancas */
     transform-origin: bottom center;
     left: 50%;
     bottom: 50%;
+    width: 1px;
 }
 .marca.hora { /* Las 4 rayas grandes de 12, 3, 6, 9 */
     width: 3px;
-    height: 8px;
+    height: 10px;
     background: #FFD700; /* Doradas */
 }
-.marca.minuto { /* Las 60 rayitas pequeñas */
-    width: 1px;
-    height: 4px;
+.marca.minuto { /* Las 56 rayitas pequeñas */
+    height: 5px;
+    opacity: 0.7;
 }
     
 .aguja {
@@ -174,7 +176,7 @@ function actualizarReloj() {
             numeroDiv.className = 'numero';
             numeroDiv.textContent = num;
             // Los posicionamos en un circulo
-            const radio = 60; // que tan lejos del centro
+            const radio = 85; // <-- ANTES ERA 60. Ahora 85 para que quede adentro del reloj de 220px
             const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
             const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
             numeroDiv.style.left = `${x}%`;
