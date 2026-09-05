@@ -70,10 +70,17 @@ body {
 .aguja.minuto { width: 4px; height: 55px; background: #ffe000; margin-left: -2px; }
 .aguja.segundo { width: 2px; height: 65px; background: #00ff16; margin-left: -1px; }
 .centro {
-    width: 10px; height: 10px; background: #FFD700; /* SOLO UN PUNTO DORADO */
-    border: none; /* QUITE EL BORDER QUE HACIA EL SOL */
-    border-radius: 50%; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%); z-index: 10;
+    width: 10px; 
+    height: 10px; 
+    background: #FFD700; /* Solo circulo */
+    border: none !important; /* Sin borde */
+    box-shadow: none !important; /* Sin brillo/rayos */
+    border-radius: 50%; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    z-index: 10;
 }
 .fecha { color: #ffe000; font-size: 24px; font-weight: bold; margin-bottom: 20px; white-space: nowrap; text-transform: capitalize; }
 .reloj-completo { color: #ff4200; font-size: 20vw; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
@@ -166,7 +173,8 @@ function actualizarReloj() {
             marca.style.transform = `rotate(${i * 6}deg) translateX(-50%)`;
             relojCara.appendChild(marca);
         }
-        // Crear los 4 numeros
+
+        // 7. Crear los 4 numeros
         const numeros = [12, 3, 6, 9];
         numeros.forEach(num => {
             const angulo = (num % 12) * 30;
@@ -182,6 +190,12 @@ function actualizarReloj() {
         });
     }
 }
+    // Forzar que las marcas se creen
+const relojCara = document.getElementById('reloj-agujas');
+relojCara.innerHTML = `<div class="aguja hora" id="aguja-hora"></div>
+    <div class="aguja minuto" id="aguja-minuto"></div>
+    <div class="aguja segundo" id="aguja-segundo"></div>
+    <div class="centro"></div>`;
 setInterval(actualizarReloj, 1000);
 actualizarReloj(); // Para que cargue de una vez
 </script>
