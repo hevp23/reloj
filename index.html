@@ -83,78 +83,75 @@ body {
 <div class="saludo" id="saludo"></div>
 <div class="frase" id="frase"></div>
     
-<script>
-    
-// NUEVO: Esta función pone la primera letra en Mayúscula
-function capitalizar(texto) {
-    const palabras = texto.split(' ');
-    return palabras.map((palabra, i) => {
-        // Si es "de" y no es la primera palabra, déjala en minúscula
-        if (palabra.toLowerCase() === 'de' && i !== 0) {
-            return 'de';
-        }
-        // Todo lo demás con mayúscula
-        return palabra.charAt(0).toUpperCase() + palabra.slice(1);
-    }).join(' ');
-}
-    
-function actualizarReloj() {
-    const ahora = new Date();
-    
-    // Fecha en español
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaTexto = capitalizar(ahora.toLocaleDateString('es-ES', opciones)); // NUEVO: Ahora con mayúsculas
-    document.getElementById('fecha').innerHTML = fechaTexto;
-    
-    // Hora 12h
-    let horas = ahora.getHours();
-    const ampm = horas >= 12 ? 'PM' : 'AM';
-    horas = horas % 12;
-    horas = horas ? horas : 12;
-    
-    const minutos = String(ahora.getMinutes()).padStart(2, '0');
-    const segundos = String(ahora.getSeconds()).padStart(2, '0');
-    
-    // NUEVO: Todo junto en 1 línea
-    document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
-    document.getElementById('ampm').innerHTML = ampm;
+    <script>
+    const frases = [ // <-- Lo moví para arriba para que ambas funciones lo vean
+        "Hoy es un buen día para empezar algo nuevo",
+        "Sonríe, la vida es hermosa",
+        "Un paso a la vez y llegarás lejos",
+        "Tu actitud determina tu día",
+        "Cree en ti, puedes con todo",
+        "Hoy va a pasarte algo increíble",
+        "La paciencia trae grandes recompensas"
+    ];
 
-    ponerSaludo();
-    ponerFrase();
-
-    const frases = [
-    "Hoy es un buen día para empezar algo nuevo",
-    "Sonríe, la vida es hermosa",
-    "Un paso a la vez y llegarás lejos",
-    "Tu actitud determina tu día",
-    "Cree en ti, puedes con todo",
-    "Hoy va a pasarte algo increíble",
-    "La paciencia trae grandes recompensas"
-];
-
-function ponerSaludo() {
-    const hora = new Date().getHours();
-    const saludoDiv = document.getElementById('saludo');
-    
-    if (hora < 12) {
-        saludoDiv.textContent = "¡Buenos días!";
-    } else if (hora < 18) {
-        saludoDiv.textContent = "¡Buenas tardes!";
-    } else {
-        saludoDiv.textContent = "¡Buenas noches!";
+    // NUEVO: Esta función pone la primera letra en Mayúscula
+    function capitalizar(texto) {
+        const palabras = texto.split(' ');
+        return palabras.map((palabra, i) => {
+            if (palabra.toLowerCase() === 'de' && i !== 0) {
+                return 'de';
+            }
+            return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+        }).join(' ');
     }
-}
 
-function ponerFrase() {
-    const diaDelAno = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    const fraseDelDia = frases[diaDelAno % frases.length]; // Cambia cada día
-    document.getElementById('frase').textContent = fraseDelDia;
-}
-}
+    function ponerSaludo() {
+        const hora = new Date().getHours();
+        const saludoDiv = document.getElementById('saludo');
+        
+        if (hora < 12) {
+            saludoDiv.textContent = "¡Buenos días!";
+        } else if (hora < 18) {
+            saludoDiv.textContent = "¡Buenas tardes!";
+        } else {
+            saludoDiv.textContent = "¡Buenas noches!";
+        }
+    }
 
-actualizarReloj();
-setInterval(actualizarReloj, 1000); // Actualiza cada segundo
-</script>
+    function ponerFrase() {
+        const hoy = new Date();
+        const diaDelAno = Math.floor((hoy - new Date(hoy.getFullYear(), 0, 1)) / 86400000); // Versión segura
+        const fraseDelDia = frases[diaDelAno % frases.length];
+        document.getElementById('frase').textContent = fraseDelDia;
+    }
+
+    function actualizarReloj() {
+        ponerSaludo(); // Llamar al inicio
+        ponerFrase();  // Llamar al inicio
+
+        const ahora = new Date();
+        
+        // Fecha en español
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fechaTexto = capitalizar(ahora.toLocaleDateString('es-ES', opciones));
+        document.getElementById('fecha').innerHTML = fechaTexto;
+
+        // Hora 12h
+        let horas = ahora.getHours();
+        const ampm = horas >= 12 ? 'PM' : 'AM';
+        horas = horas % 12;
+        horas = horas ? horas : 12;
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+
+        // Todo junto en 1 línea
+        document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
+        document.getElementById('ampm').innerHTML = ampm;
+    }
+
+    actualizarReloj();
+    setInterval(actualizarReloj, 1000); // Actualiza cada segundo
+    </script>
     
 <footer>©️ 2026 @hevp23 | Héctor Eduardo Valladares Pérez</footer>
     
