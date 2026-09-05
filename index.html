@@ -18,7 +18,8 @@ body {
     width: 100vw;
     text-align: center;
     overflow: hidden;
-.reloj-agujas {
+{
+    .reloj-agujas 
     width: 150px;
     height: 150px;
     border: 4px solid #FFD700; /* Borde dorado */
@@ -28,13 +29,16 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* Brillo dorado */
 }
+    
 .aguja {
     position: absolute;
     bottom: 50%;
     left: 50%;
     transform-origin: bottom center;
+    transform: rotate(0deg); /* <-- AGREGA ESTA LINEA */
     border-radius: 10px;
 }
+    
 .aguja.hora {
     width: 6px;
     height: 35px;
@@ -193,18 +197,17 @@ body {
         document.getElementById('ampm').innerHTML = ampm;
     }
         // Mover agujas del reloj analógico
-    const deg = 6; // 360 / 60
+    const deg = 6;
     const hr = ahora.getHours() % 12;
-    const hrDeg = (hr * 30) + (ahora.getMinutes() / 2); // La hora se mueve suave
+    const hrDeg = (hr * 30) + (ahora.getMinutes() / 2);
     const minDeg = ahora.getMinutes() * deg;
     const secDeg = ahora.getSeconds() * deg;
     
     document.getElementById('aguja-hora').style.transform = `rotate(${hrDeg}deg)`;
     document.getElementById('aguja-minuto').style.transform = `rotate(${minDeg}deg)`;
     document.getElementById('aguja-segundo').style.transform = `rotate(${secDeg}deg)`;
-
-    actualizarReloj();
-    setInterval(actualizarReloj, 1000); // Actualiza cada segundo
+        }
+        
     </script>
     
 <footer>©️ 2026 @hevp23 | Héctor Eduardo Valladares Pérez</footer>
