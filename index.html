@@ -176,7 +176,7 @@ function actualizarReloj() {
             numeroDiv.className = 'numero';
             numeroDiv.textContent = num;
             // Los posicionamos en un circulo
-            const radio = 85; // <-- ANTES ERA 60. Ahora 85 para que quede adentro del reloj de 220px
+            const radio = 70; // <-- ANTES ERA 60. Ahora 85 para que quede adentro del reloj de 220px
             const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
             const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
             numeroDiv.style.left = `${x}%`;
@@ -184,6 +184,33 @@ function actualizarReloj() {
             relojCara.appendChild(numeroDiv);
         });
     }
+
+    // Crear numeros y marcas solo la primera vez
+const relojCara = document.getElementById('reloj-agujas');
+if (!relojCara.querySelector('.numero')) {
+    // 1. Crear las 60 marcas
+    for (let i = 0; i < 60; i++) {
+        const marca = document.createElement('div');
+        marca.className = 'marca ' + (i % 5 === 0 ? 'hora' : 'minuto');
+        marca.style.transform = `rotate(${i * 6}deg) translateX(-50%)`;
+        relojCara.appendChild(marca);
+    }
+    
+    // 2. Crear los 4 numeros
+    const numeros = [12, 3, 6, 9];
+    numeros.forEach(num => {
+        const angulo = (num % 12) * 30;
+        const numeroDiv = document.createElement('div');
+        numeroDiv.className = 'numero';
+        numeroDiv.textContent = num;
+        const radio = 75; // <-- ESTE ES EL QUE ARREGLA TODO
+        const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
+        const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
+        numeroDiv.style.left = `${x}%`;
+        numeroDiv.style.top = `${y}%`;
+        relojCara.appendChild(numeroDiv);
+    });
+                                            }
     
 } // <-- CIERRA LA FUNCION
 
