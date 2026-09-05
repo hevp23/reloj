@@ -18,14 +18,52 @@ body {
     width: 100vw;
     text-align: center;
     overflow: hidden;
+.reloj-agujas {
+    width: 150px;
+    height: 150px;
+    border: 4px solid #FFD700; /* Borde dorado */
+    border-radius: 50%;
+    background: #0047ab; /* Azul más oscuro para que resalte */
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* Brillo dorado */
 }
-    .logo {
-    width: 120px;       /* tamaño del círculo */
-    height: 120px;
-    border-radius: 50%; /* lo hace circular */
-    margin-bottom: 15px;
-    border: 3px solid #FFD700; /* borde dorado opcional */
-    }
+.aguja {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 10px;
+}
+.aguja.hora {
+    width: 6px;
+    height: 35px;
+    background: #ff4200; /* NARANJA */
+    margin-left: -3px;
+}
+.aguja.minuto {
+    width: 4px;
+    height: 55px;
+    background: #ffe000; /* AMARILLO */
+    margin-left: -2px;
+}
+.aguja.segundo {
+    width: 2px;
+    height: 65px;
+    background: #00ff16; /* VERDE */
+    margin-left: -1px;
+}
+.centro {
+    width: 14px;
+    height: 14px;
+    background: #FFD700; /* Centro dorado */
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
     
 .fecha {
     color: #ffe000; /* 🟨 Amarillo */
@@ -76,7 +114,13 @@ body {
 </head>
 <body>
 
-<img src="reloj.jpg" alt="Logo Reloj" class="logo">
+<div class="reloj-agujas">
+    <div class="aguja hora" id="aguja-hora"></div>
+    <div class="aguja minuto" id="aguja-minuto"></div>
+    <div class="aguja segundo" id="aguja-segundo"></div>
+    <div class="centro"></div>
+</div>
+    
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div> <!-- NUEVO: Todo en 1 línea -->
 <div class="ampm" id="ampm"></div>
@@ -148,6 +192,16 @@ body {
         document.getElementById('reloj-completo').innerHTML = `${horas}:${minutos}:${segundos}`;
         document.getElementById('ampm').innerHTML = ampm;
     }
+        // Mover agujas del reloj analógico
+    const deg = 6; // 360 / 60
+    const hr = ahora.getHours() % 12;
+    const hrDeg = (hr * 30) + (ahora.getMinutes() / 2); // La hora se mueve suave
+    const minDeg = ahora.getMinutes() * deg;
+    const secDeg = ahora.getSeconds() * deg;
+    
+    document.getElementById('aguja-hora').style.transform = `rotate(${hrDeg}deg)`;
+    document.getElementById('aguja-minuto').style.transform = `rotate(${minDeg}deg)`;
+    document.getElementById('aguja-segundo').style.transform = `rotate(${secDeg}deg)`;
 
     actualizarReloj();
     setInterval(actualizarReloj, 1000); // Actualiza cada segundo
