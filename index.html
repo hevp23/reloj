@@ -36,6 +36,12 @@ body {
     font-weight: bold;
     transform: translate(-50%, -50%);
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    z-index: 5; /* Para que quede encima */
+}
+.centro {
+    width: 12px; height: 12px; background: #FFD700; /* Solo circulo dorado */
+    border-radius: 50%; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); z-index: 10; /* Tapa las agujas */
 }
 .marca {
     position: absolute;
@@ -44,6 +50,7 @@ body {
     left: 50%;
     bottom: 50%;
     width: 1px;
+    z-index: 2; /* Para que se vean */
 }
 .marca.hora { /* Las 4 rayas grandes */
     width: 3px;
@@ -167,7 +174,7 @@ function actualizarReloj() {
             const numeroDiv = document.createElement('div');
             numeroDiv.className = 'numero';
             numeroDiv.textContent = num;
-            const radio = 75; // <-- ADENTRO DEL CIRCULO AZUL
+            const radio = 50; // <-- ADENTRO DEL CIRCULO AZUL
             const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
             const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
             numeroDiv.style.left = `${x}%`;
