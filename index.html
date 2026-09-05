@@ -30,6 +30,32 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
+
+    .numero {
+    position: absolute;
+    color: #FFD700; /* Dorado */
+    font-size: 16px;
+    font-weight: bold;
+    transform: translate(-50%, -50%); /* Para centrarlo bien */
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+.marca {
+    position: absolute;
+    background: #FFFFFF; /* Rayitas blancas */
+    transform-origin: bottom center;
+    left: 50%;
+    bottom: 50%;
+}
+.marca.hora { /* Las 4 rayas grandes de 12, 3, 6, 9 */
+    width: 3px;
+    height: 8px;
+    background: #FFD700; /* Doradas */
+}
+.marca.minuto { /* Las 60 rayitas pequeñas */
+    width: 1px;
+    height: 4px;
+}
+    
 .aguja {
     position: absolute;
     bottom: 50%;
@@ -54,11 +80,14 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
 </style>
 </head>
 <body>
-<div class="reloj-agujas">
+    
+<div class="reloj-agujas" id="reloj-agujas">
     <div class="aguja hora" id="aguja-hora"></div>
     <div class="aguja minuto" id="aguja-minuto"></div>
     <div class="aguja segundo" id="aguja-segundo"></div>
     <div class="centro"></div>
+</div>
+    
 </div>
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div>
@@ -125,6 +154,35 @@ function actualizarReloj() {
     document.getElementById('aguja-hora').style.transform = `rotate(${hrDeg}deg)`;
     document.getElementById('aguja-minuto').style.transform = `rotate(${minDeg}deg)`;
     document.getElementById('aguja-segundo').style.transform = `rotate(${secDeg}deg)`;
+
+    // Crear numeros y marcas solo la primera vez
+    const relojCara = document.getElementById('reloj-agujas');
+    if (!relojCara.querySelector('.numero')) {
+        // Crear las 60 marcas
+        for (let i = 0; i < 60; i++) {
+            const marca = document.createElement('div');
+            marca.className = 'marca ' + (i % 5 === 0 ? 'hora' : 'minuto');
+            marca.style.transform = `rotate(${i * 6}deg) translateX(-50%)`;
+            relojCara.appendChild(marca);
+        }
+        
+        // Crear los 4 numeros
+        const numeros = [12, 3, 6, 9];
+        numeros.forEach(num => {
+            const angulo = (num % 12) * 30; // 30 grados por hora
+            const numeroDiv = document.createElement('div');
+            numeroDiv.className = 'numero';
+            numeroDiv.textContent = num;
+            // Los posicionamos en un circulo
+            const radio = 60; // que tan lejos del centro
+            const x = 50 + radio * Math.sin(angulo * Math.PI / 180);
+            const y = 50 - radio * Math.cos(angulo * Math.PI / 180);
+            numeroDiv.style.left = `${x}%`;
+            numeroDiv.style.top = `${y}%`;
+            relojCara.appendChild(numeroDiv);
+        });
+    }
+    
 } // <-- CIERRA LA FUNCION
 
 actualizarReloj();
