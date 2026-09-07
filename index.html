@@ -67,7 +67,16 @@ body {
     transform: translate(-50%, -50%); 
     z-index: 10;
 }
-    
+
+.liston {
+    width: 100px !important;          
+    height: 100px !important;
+    border-radius: 0%;
+    object-fit: cover;
+    display: block;          /* Nuevo */
+    margin-left: auto;       /* Para centrarlo */
+    margin-right: auto;
+}
 .fecha { color: #ffe000; font-size: 24px; font-weight: bold; margin-bottom: 20px; white-space: nowrap; text-transform: capitalize; }
 .reloj-completo { color: #ff4200; font-size: 20vw; font-weight: 700; line-height: 1; letter-spacing: -0.05em; }
 .ampm { color: #00ff16; font-size: 10vw; margin-top: 2vh; font-weight: 700; }
@@ -104,7 +113,7 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
 <body>
 
 <div class="reloj-agujas" id="reloj-agujas"></div>
-
+<img src="liston.png" alt="Liston" class="liston" oncontextmenu="return false" draggable="false">
 <div class="fecha" id="fecha"></div>
 <div class="reloj-completo" id="reloj-completo"></div>
 <div class="ampm" id="ampm"></div>
