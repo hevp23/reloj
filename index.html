@@ -101,7 +101,10 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
     margin-left: auto;       /* Para centrarlo */
     margin-right: auto;
     }
-    
+
+    .text {
+        font-size: 1em !important;
+        color: #FFFFFF
 </style>
 </head>
 <body>
@@ -113,8 +116,9 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
 <div class="ampm" id="ampm"></div>
 <div class="saludo" id="saludo"></div>
 <div class="frase" id="frase"></div>
-<img src="reloj.png" alt="Logo Reloj" class="logo" oncontextmenu="return false" draggable="false"> Reloj IP<br>
-<footer>© 2026 @hevp23 | Héctor Eduardo Valladares Pérez</footer>
+<div class="Reloj IP" id="texto"></div> 
+<img src="reloj.png" alt="Logo Reloj" class="logo" oncontextmenu="return false" draggable="false">
+
 
 <script>
 const frases = [
