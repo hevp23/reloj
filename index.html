@@ -23,6 +23,13 @@ body {
     text-align: center;
     overflow: hidden;
 }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
 .reloj-agujas {
     width: 220px;
     height: 220px;
@@ -110,8 +117,9 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
     
 </style>
 </head>
+    
 <body>
-
+<div class="container">
 <div class="reloj-agujas" id="reloj-agujas"></div>
 <img src="liston.png" alt="Liston" class="liston" oncontextmenu="return false" draggable="false">
 <div class="fecha" id="fecha"></div>
@@ -121,7 +129,7 @@ footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-si
 <div class="frase" id="frase"></div>
 <img src="reloj.jpg" alt="Logo Reloj" class="logo" oncontextmenu="return false" draggable="false">
 <p>©️ 2026 | @hevp23 <span style="color: white;"></span></p>
-
+</div>
 
 <script>
 const frases = [
